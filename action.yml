@@ -1,0 +1,12 @@
+name: 'API Alerts - GitHub Action Notify'
+description: 'Get notifications to your device during your CI/CD pipelines on GitHub Actions'
+inputs:
+  api_key:
+    description: 'API Key of the project to notify'
+    required: true
+  message:
+    description: 'Notification message'
+    required: true
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
