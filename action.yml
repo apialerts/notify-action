@@ -1,5 +1,8 @@
 name: 'API Alerts - GitHub Action Notify'
 description: 'Get notifications to your device during your CI/CD pipelines on GitHub Actions'
+branding:
+  icon: 'bell'
+  color: 'orange'
 inputs:
   api_key:
     description: 'API Key of the project to notify'
