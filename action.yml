@@ -7,6 +7,12 @@ inputs:
   message:
     description: 'Notification message'
     required: true
+  tags:
+    description: 'Optional comma separated list of tags for the event'
+    required: false
+  link:
+    description: 'Optional link for the event'
+    required: true
 runs:
   using: 'node20'
   main: 'dist/index.js'

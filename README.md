@@ -1,4 +1,4 @@
-# API Alerts - GitHub Action Notifications
+# GitHub Actions Integration
 
 Simple integration with the API Alerts platform to send a notification to your device during a GitHub action pipeline.
 
@@ -14,10 +14,18 @@ Get your projects API Key from the Projects Page in the mobile app.
 
 **Required** The notification message to be sent to your devices
 
+### `tags`
+
+**Optional** Comma separated list of tags to attach to the event.
+
+### `link`
+
+**Optional** Link to attach to the event
+
 ## Example usage
 
+Minimal usage
 ```yaml
-
 - name: API Alerts Notify
   uses: apialerts/notify-action@v0
   with:
@@ -25,14 +33,15 @@ Get your projects API Key from the Projects Page in the mobile app.
     message: 'Production website deployed'
 ```
 
-Tip: Create a new GitHub action secret in your repository with the name `API_ALERTS_KEY`.
-
-## Development Notes
-
-Commands to build dist/index.js
-
-```bash
-npm i -g @vercel/ncc
-ncc build index.js --license licenses.txt
+Full usage
+```yaml
+- name: API Alerts Notify
+  uses: apialerts/notify-action@v0
+  with:
+    api_key: ${{ secrets.API_ALERTS_KEY }}
+    message: 'Production website deployed'
+    tags: 'Deploy,Production,Web,CI/CD'
+    link: 'https://apialerts.com'
 ```
 
+Tip: Create a new GitHub action secret in your repository with the name `API_ALERTS_KEY` to secure your project key.
