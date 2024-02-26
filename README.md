@@ -27,7 +27,7 @@ Get your projects API Key from the Projects Page in the mobile app.
 Minimal usage
 ```yaml
 - name: API Alerts Notify
-  uses: apialerts/notify-action@v0
+  uses: apialerts/notify-action@v1
   with:
     api_key: ${{ secrets.API_ALERTS_KEY }}
     message: 'Production website deployed'
@@ -36,7 +36,7 @@ Minimal usage
 Full usage
 ```yaml
 - name: API Alerts Notify
-  uses: apialerts/notify-action@v0
+  uses: apialerts/notify-action@v1
   with:
     api_key: ${{ secrets.API_ALERTS_KEY }}
     message: 'Production website deployed'
