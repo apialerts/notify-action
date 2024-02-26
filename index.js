@@ -4,8 +4,8 @@ const alerts = require('@apialerts/js')
 try {
     alerts.send({
         message: core.getInput('message'),
-        tags: core.getInput('tags'),
-        link: core.getInput('link')?.split(","),
+        tags: core.getInput('tags')?.split(","),
+        link: core.getInput('link'),
         api_key: core.getInput('api_key')
     })
 } catch (error) {
