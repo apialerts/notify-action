@@ -1,5 +1,5 @@
 const core = require('@actions/core')
-const alerts = require('@apialerts/js')
+const alerts = require('apialerts-js')
 
 try {
     alerts.send({

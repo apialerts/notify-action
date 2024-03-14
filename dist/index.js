@@ -1834,21 +1834,21 @@ function isLoopbackAddress(host) {
 
 /***/ }),
 
-/***/ 2770:
+/***/ 3492:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const client = __nccwpck_require__(8736)
-const Client = __nccwpck_require__(9573)
+const client = __nccwpck_require__(6932)
+const Client = __nccwpck_require__(6769)
 
 module.exports = client
 module.exports.Client = Client
 
 /***/ }),
 
-/***/ 9573:
+/***/ 6769:
 /***/ ((module) => {
 
 class Client {
@@ -1871,6 +1871,8 @@ class Client {
             headers: {
                 'Authorization': `Bearer ${api_key}`,
                 'Content-Type': 'application/json',
+                'X-Integration': 'js',
+                'X-Version': '1.0.0'
             },
             body: JSON.stringify({
                 message: message,
@@ -1899,13 +1901,13 @@ module.exports = Client;
 
 /***/ }),
 
-/***/ 8736:
+/***/ 6932:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const Client = __nccwpck_require__(9573)
+const Client = __nccwpck_require__(6769)
 
 module.exports = new Client()
 
@@ -26667,7 +26669,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(3811)
-const alerts = __nccwpck_require__(2770)
+const alerts = __nccwpck_require__(3492)
 
 try {
     alerts.send({
