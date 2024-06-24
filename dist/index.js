@@ -1849,7 +1849,9 @@ module.exports.Client = Client
 /***/ }),
 
 /***/ 6769:
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const constants = __nccwpck_require__(1844);
 
 class Client {
     constructor() {
@@ -1871,8 +1873,8 @@ class Client {
             headers: {
                 'Authorization': `Bearer ${api_key}`,
                 'Content-Type': 'application/json',
-                'X-Integration': 'js',
-                'X-Version': '1.0.0'
+                'X-Integration': constants.integration,
+                'X-Version': constants.version
             },
             body: JSON.stringify({
                 message: message,
@@ -1898,6 +1900,18 @@ class Client {
 }
 
 module.exports = Client;
+
+/***/ }),
+
+/***/ 1844:
+/***/ ((module) => {
+
+// Update on each release
+const integration = 'js';
+const version = '1.0.1';
+
+module.exports.integration = integration;
+module.exports.version = version;
 
 /***/ }),
 
