@@ -1,12 +1,15 @@
 name: 'API Alerts - GitHub Action Notify'
-description: 'Get notifications to your device during your CI/CD pipelines on GitHub Actions'
+description: 'Get notifications to your device during your CI/CD pipelines from GitHub Actions'
 branding:
   icon: 'bell'
   color: 'orange'
 inputs:
   api_key:
-    description: 'API Key of the project to notify'
+    description: 'API Key of the workspace to notify'
     required: true
+  channel:
+    description: 'Optional workspace channel identifier to notify'
+    required: false
   message:
     description: 'Notification message'
     required: true
@@ -15,7 +18,7 @@ inputs:
     required: false
   link:
     description: 'Optional link for the event'
-    required: true
+    required: false
 runs:
   using: 'node20'
   main: 'dist/index.js'

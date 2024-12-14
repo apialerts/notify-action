@@ -3,6 +3,7 @@ const alerts = require('apialerts-js')
 
 try {
     alerts.send({
+        channel: core.getInput('channel'),
         message: core.getInput('message'),
         tags: core.getInput('tags')?.split(","),
         link: core.getInput('link'),
