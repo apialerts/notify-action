@@ -6,13 +6,17 @@ Simple integration with the API Alerts platform to send a notification to your d
 
 ### `api_key`
 
-**Required** API Key of the project to notify. 
+**Required** API Key of the workspace to notify. 
 
-Get your projects API Key from the Projects Page in the mobile app.
+Get your workspace API Key from the Workspaces page in the mobile app.
 
 ### `message`
 
 **Required** The notification message to be sent to your devices
+
+### `channel`
+
+**Optional** Workspace channel to send the event to. Defaults to the default channel if not supplied
 
 ### `tags`
 
@@ -39,9 +43,10 @@ Full usage
   uses: apialerts/notify-action@v1
   with:
     api_key: ${{ secrets.API_ALERTS_KEY }}
+    channel: 'integration'
     message: 'Production website deployed'
     tags: 'Deploy,Production,Web,CI/CD'
     link: 'https://apialerts.com'
 ```
 
-Tip: Create a new GitHub action secret in your repository with the name `API_ALERTS_KEY` to secure your project key.
+Tip: Create a new GitHub action secret in your repository with the name `API_ALERTS_KEY` to secure your workspace key.
