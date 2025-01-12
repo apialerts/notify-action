@@ -14,6 +14,10 @@ Get your workspace API Key from the Workspaces page in the mobile app.
 
 **Required** The notification message to be sent to your devices
 
+### `channel`
+
+**Optional** Workspace channel to send the event to. Defaults to the default channel if not supplied
+
 ### `tags`
 
 **Optional** Comma separated list of tags to attach to the event.
