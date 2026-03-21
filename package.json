@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.4.0",
     "vitest": "^4.1.0"
   },

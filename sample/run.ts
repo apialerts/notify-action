@@ -30,53 +30,57 @@ function handleResult(result: Awaited<ReturnType<typeof ApiAlerts.sendAsync>>): 
     }
 }
 
-if (isBuild) {
-    handleResult(await ApiAlerts.sendAsync({
-        message: 'Notify Action - PR build passed',
-        channel: 'builds',
-        event: 'ci.build',
-        title: 'Build Passed',
-        tags: ['CI/CD', 'Notify Action'],
-        link,
-    }))
+async function main(): Promise<void> {
+    if (isBuild) {
+        handleResult(await ApiAlerts.sendAsync({
+            message: 'Notify Action - PR build passed',
+            channel: 'builds',
+            event: 'ci.build',
+            title: 'Build Passed',
+            tags: ['CI/CD', 'Notify Action'],
+            link,
+        }))
 
-} else if (isRelease) {
-    handleResult(await ApiAlerts.sendAsync({
-        message: 'Notify Action - release build passed',
-        channel: 'builds',
-        event: 'ci.release',
-        title: 'Release Build Passed',
-        tags: ['CI/CD', 'Notify Action'],
-        link,
-    }))
+    } else if (isRelease) {
+        handleResult(await ApiAlerts.sendAsync({
+            message: 'Notify Action - release build passed',
+            channel: 'builds',
+            event: 'ci.release',
+            title: 'Release Build Passed',
+            tags: ['CI/CD', 'Notify Action'],
+            link,
+        }))
 
-} else if (isPublish) {
-    handleResult(await ApiAlerts.sendAsync({
-        message: 'Notify Action - published',
-        channel: 'releases',
-        event: 'ci.publish',
-        title: 'Published',
-        tags: ['CI/CD', 'Notify Action'],
-        link,
-    }))
+    } else if (isPublish) {
+        handleResult(await ApiAlerts.sendAsync({
+            message: 'Notify Action - published',
+            channel: 'releases',
+            event: 'ci.publish',
+            title: 'Published',
+            tags: ['CI/CD', 'Notify Action'],
+            link,
+        }))
 
-} else if (isIntegrationTests) {
-    handleResult(await ApiAlerts.sendAsync({
-        message: 'Notify Action - minimal',
-        channel,
-    }))
+    } else if (isIntegrationTests) {
+        handleResult(await ApiAlerts.sendAsync({
+            message: 'Notify Action - minimal',
+            channel,
+        }))
 
-    handleResult(await ApiAlerts.sendAsync({
-        message: 'Notify Action - full',
-        channel,
-        event: 'sdk.test',
-        title: 'Integration Test',
-        tags: ['CI/CD', 'Notify Action'],
-        link,
-        data: { version: '2.1.0' },
-    }))
+        handleResult(await ApiAlerts.sendAsync({
+            message: 'Notify Action - full',
+            channel,
+            event: 'sdk.test',
+            title: 'Integration Test',
+            tags: ['CI/CD', 'Notify Action'],
+            link,
+            data: { version: '2.1.0' },
+        }))
 
-} else {
-    console.error('Error: pass --build, --release, --publish, or --integration-tests')
-    process.exit(1)
+    } else {
+        console.error('Error: pass --build, --release, --publish, or --integration-tests')
+        process.exit(1)
+    }
 }
+
+main()
