@@ -34,7 +34,7 @@ async function main(): Promise<void> {
     if (isBuild) {
         handleResult(await ApiAlerts.sendAsync({
             message: 'Notify Action - PR build passed',
-            channel: 'builds',
+            channel: 'developer',
             event: 'ci.build',
             title: 'Build Passed',
             tags: ['CI/CD', 'Notify Action'],
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
     } else if (isRelease) {
         handleResult(await ApiAlerts.sendAsync({
             message: 'Notify Action - release build passed',
-            channel: 'builds',
+            channel: 'developer',
             event: 'ci.release',
             title: 'Release Build Passed',
             tags: ['CI/CD', 'Notify Action'],
