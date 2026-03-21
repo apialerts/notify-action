@@ -3293,7 +3293,7 @@ var ApiAlertsClient = class {
     this.baseUrl = BASE_URL;
     this.debug = false;
   }
-  setOverrides(integration, version, baseUrl) {
+  setOverrides(integration, version, baseUrl = BASE_URL) {
     this.integration = integration;
     this.version = version;
     this.baseUrl = baseUrl;
@@ -25844,7 +25844,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 9407:
+/***/ 9786:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -25883,6 +25883,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = run;
 const core = __importStar(__nccwpck_require__(7484));
 const apialerts_1 = __nccwpck_require__(2236);
 const VERSION = '1.4.0';
@@ -25909,7 +25910,7 @@ async function run() {
         }
     }
     const client = new apialerts_1.ApiAlertsClient(apiKey);
-    client.setOverrides('notify-action', VERSION, 'https://api.apialerts.com/event');
+    client.setOverrides('notify-action', VERSION);
     const result = await client.sendAsync({ message, channel, event, title, tags, link, data });
     if (!result.success) {
         core.setFailed(result.error ?? 'Failed to send alert');
@@ -25920,7 +25921,6 @@ async function run() {
         core.warning(`(apialerts.com) ${warning}`);
     }
 }
-run();
 
 
 /***/ }),
@@ -27836,12 +27836,18 @@ module.exports = parseParams
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(9407);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+var exports = __webpack_exports__;
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const run_js_1 = __nccwpck_require__(9786);
+(0, run_js_1.run)();
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;

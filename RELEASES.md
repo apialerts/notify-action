@@ -2,7 +2,7 @@
 
 ## Files to update
 
-1. `src/run.ts` — update `VERSION` constant
+1. `src/run.ts` — update `VERSION`
 2. `package.json` — update `version` field
 3. Run `npm install` and `npm run build` to rebuild `dist/index.js`
 4. Commit and PR to `main`

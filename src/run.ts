@@ -1,7 +1,8 @@
 import * as core from '@actions/core'
 import { ApiAlertsClient } from 'apialerts'
 
-const VERSION = '1.4.0'
+export const INTEGRATION = 'notify-action'
+export const VERSION = '1.4.0'
 
 export async function run(): Promise<void> {
     const apiKey = core.getInput('api_key', { required: true })
@@ -29,7 +30,7 @@ export async function run(): Promise<void> {
     }
 
     const client = new ApiAlertsClient(apiKey)
-    client.setOverrides('notify-action', VERSION, 'https://api.apialerts.com/event')
+    client.setOverrides(INTEGRATION, VERSION)
 
     const result = await client.sendAsync({ message, channel, event, title, tags, link, data })
     if (!result.success) {

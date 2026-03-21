@@ -29,7 +29,7 @@ vi.mock('apialerts', () => ({
     }),
 }))
 
-import { run } from '../src/run.js'
+import { run, INTEGRATION, VERSION } from '../src/run.js'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -40,6 +40,18 @@ function mockInputs(inputs: Record<string, string>): void {
 function successResult(workspace = 'My Workspace', channel = 'general', warnings: string[] = []) {
     return { success: true, workspace, channel, warnings }
 }
+
+// ── Constants ─────────────────────────────────────────────────────────────────
+
+describe('constants', () => {
+    it('integration name is notify-action', () => {
+        expect(INTEGRATION).toBe('notify-action')
+    })
+
+    it('version is a valid semver string', () => {
+        expect(VERSION).toMatch(/^\d+\.\d+\.\d+$/)
+    })
+})
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
@@ -103,7 +115,7 @@ describe('success', () => {
 
         await run()
 
-        expect(mockSetOverrides).toHaveBeenCalledWith('notify-action', '1.4.0', expect.any(String))
+        expect(mockSetOverrides).toHaveBeenCalledWith(INTEGRATION, VERSION)
     })
 })
 
