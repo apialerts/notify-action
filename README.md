@@ -9,7 +9,7 @@ Send notifications to your devices directly from GitHub Actions workflows.
 ## Usage
 
 ```yaml
-- uses: apialerts/notify-action@v1
+- uses: apialerts/notify-action@v2
   with:
     api_key: ${{ secrets.APIALERTS_API_KEY }}
     message: 'Deployment successful'
@@ -31,7 +31,7 @@ Send notifications to your devices directly from GitHub Actions workflows.
 ## Example
 
 ```yaml
-- uses: apialerts/notify-action@v1
+- uses: apialerts/notify-action@v2
   with:
     api_key: ${{ secrets.APIALERTS_API_KEY }}
     message: 'Production deployed'

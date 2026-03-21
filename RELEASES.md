@@ -12,17 +12,17 @@
 After merging to `main`, create and push a version tag:
 
 ```bash
-git tag v1.4.0
-git push origin v1.4.0
+git tag v2.1.0
+git push origin v2.1.0
 ```
 
-The `publish.yml` workflow will automatically update the floating `v1` tag to point to the same commit.
+The `publish.yml` workflow will automatically update the floating `v2` tag to point to the same commit.
 
 Users can pin to any level of specificity:
 
 ```yaml
-uses: apialerts/notify-action@v1        # always latest 1.x
-uses: apialerts/notify-action@v1.4.0   # exact version
+uses: apialerts/notify-action@v2        # always latest 2.x
+uses: apialerts/notify-action@v2.1.0   # exact version
 ```
 
 ## Important

@@ -73,7 +73,7 @@ if (isBuild) {
         title: 'Integration Test',
         tags: ['CI/CD', 'Notify Action'],
         link,
-        data: { version: '1.4.0' },
+        data: { version: '2.1.0' },
     }))
 
 } else {
