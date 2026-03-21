@@ -6,6 +6,16 @@
 
 Send notifications to your devices directly from GitHub Actions workflows.
 
+## Setup
+
+Add your API Alerts workspace API key as a GitHub Actions secret:
+
+1. Go to your repository **Settings → Secrets and variables → Actions**
+2. Click **New repository secret**
+3. Name it `APIALERTS_API_KEY` and paste your API key as the value
+
+Your API key can be found in the API Alerts app under **Workspace Settings**.
+
 ## Usage
 
 ```yaml
