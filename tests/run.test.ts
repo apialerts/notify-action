@@ -22,11 +22,11 @@ const { mockSendAsync, mockSetOverrides } = vi.hoisted(() => ({
 }))
 
 vi.mock('apialerts', () => ({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ApiAlertsClient: vi.fn(function (this: any) {
-        this.sendAsync = mockSendAsync
-        this.setOverrides = mockSetOverrides
-    }),
+    ApiAlerts: {
+        configure: vi.fn(),
+        setOverrides: mockSetOverrides,
+        sendAsync: mockSendAsync,
+    },
 }))
 
 import { run, INTEGRATION, VERSION } from '../src/run.js'

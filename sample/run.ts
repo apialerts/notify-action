@@ -1,4 +1,5 @@
 import { ApiAlerts } from 'apialerts'
+import { INTEGRATION, VERSION } from '../src/run'
 
 const args = process.argv.slice(2)
 const isBuild = args.includes('--build')
@@ -18,6 +19,7 @@ if (!apiKey) {
 const link = 'https://github.com/apialerts/notify-action/actions'
 
 ApiAlerts.configure(apiKey)
+ApiAlerts.setOverrides(INTEGRATION, VERSION)
 
 function handleResult(result: Awaited<ReturnType<typeof ApiAlerts.sendAsync>>): void {
     if (!result.success) {

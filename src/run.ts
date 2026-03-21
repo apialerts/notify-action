@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import { ApiAlertsClient } from 'apialerts'
+import { ApiAlerts } from 'apialerts'
 
 export const INTEGRATION = 'notify-action'
 export const VERSION = '2.1.0'
@@ -29,10 +29,10 @@ export async function run(): Promise<void> {
         }
     }
 
-    const client = new ApiAlertsClient(apiKey)
-    client.setOverrides(INTEGRATION, VERSION)
+    ApiAlerts.configure(apiKey)
+    ApiAlerts.setOverrides(INTEGRATION, VERSION)
 
-    const result = await client.sendAsync({ message, channel, event, title, tags, link, data })
+    const result = await ApiAlerts.sendAsync({ message, channel, event, title, tags, link, data })
     if (!result.success) {
         core.setFailed(result.error ?? 'Failed to send alert')
         return
