@@ -1,0 +1,27 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    name: Update Floating Tags
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Update floating major tag
+        run: |
+          MAJOR=$(echo "${GITHUB_REF_NAME}" | sed 's/\..*//')
+          git tag -fa "${MAJOR}" -m "${MAJOR}"
+          git push origin "${MAJOR}" --force
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npx tsx sample/run.ts --publish
+        env:
+          APIALERTS_API_KEY: ${{ secrets.APIALERTS_API_KEY }}

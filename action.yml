@@ -7,17 +7,26 @@ inputs:
   api_key:
     description: 'API Key of the workspace to notify'
     required: true
-  channel:
-    description: 'Optional workspace channel identifier to notify'
-    required: false
   message:
     description: 'Notification message'
     required: true
+  channel:
+    description: 'Channel to send the notification to. If not provided or invalid, the workspace default channel will be used'
+    required: false
+  event:
+    description: 'Optional event name for routing and filtering'
+    required: false
+  title:
+    description: 'Optional title for the notification'
+    required: false
   tags:
-    description: 'Optional comma separated list of tags for the event'
+    description: 'Optional comma-separated list of tags'
     required: false
   link:
-    description: 'Optional link for the event'
+    description: 'Optional link to include with the notification'
+    required: false
+  data:
+    description: 'Optional JSON string of key-value metadata'
     required: false
 runs:
   using: 'node20'

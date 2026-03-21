@@ -1,52 +1,50 @@
-# GitHub Actions Integration
+# API Alerts • GitHub Action
 
-Simple integration with the API Alerts platform to send a notification to your device during a GitHub action pipeline.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+[GitHub Marketplace](https://github.com/marketplace/actions/api-alerts-github-action-notify) • [API Alerts](https://apialerts.com)
+
+Send notifications to your devices directly from GitHub Actions workflows.
+
+## Usage
+
+```yaml
+- uses: apialerts/notify-action@v1
+  with:
+    api_key: ${{ secrets.APIALERTS_API_KEY }}
+    message: 'Deployment successful'
+```
 
 ## Inputs
 
-### `api_key`
+| Input     | Required | Description                                                                    |
+|-----------|----------|--------------------------------------------------------------------------------|
+| `api_key` | Yes      | Your API Alerts workspace API key                                              |
+| `message` | Yes      | Notification message                                                           |
+| `channel` | No       | Channel to send to. If not provided or invalid, the workspace default is used  |
+| `event`   | No       | Event key for routing and filtering                                            |
+| `title`   | No       | Short title for the notification                                               |
+| `tags`    | No       | Comma-separated list of tags                                                   |
+| `link`    | No       | URL to attach to the notification                                              |
+| `data`    | No       | JSON string of key-value metadata                                              |
 
-**Required** API Key of the workspace to notify. 
+## Example
 
-Get your workspace API Key from the Workspaces page in the mobile app.
-
-### `message`
-
-**Required** The notification message to be sent to your devices
-
-### `channel`
-
-**Optional** Workspace channel to send the event to. Defaults to the default channel if not supplied
-
-### `tags`
-
-**Optional** Comma separated list of tags to attach to the event.
-
-### `link`
-
-**Optional** Link to attach to the event
-
-## Example usage
-
-Minimal usage
 ```yaml
-- name: API Alerts Notify
-  uses: apialerts/notify-action@v1
+- uses: apialerts/notify-action@v1
   with:
-    api_key: ${{ secrets.API_ALERTS_KEY }}
-    message: 'Production website deployed'
+    api_key: ${{ secrets.APIALERTS_API_KEY }}
+    message: 'Production deployed'
+    channel: 'releases'
+    event: 'ci.deploy'
+    title: 'Deployed'
+    tags: 'CI/CD,Production'
+    link: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+    data: '{"sha": "${{ github.sha }}"}'
 ```
 
-Full usage
-```yaml
-- name: API Alerts Notify
-  uses: apialerts/notify-action@v1
-  with:
-    api_key: ${{ secrets.API_ALERTS_KEY }}
-    channel: 'integration'
-    message: 'Production website deployed'
-    tags: 'Deploy,Production,Web,CI/CD'
-    link: 'https://apialerts.com'
-```
+## Links
 
-Tip: Create a new GitHub action secret in your repository with the name `API_ALERTS_KEY` to secure your workspace key.
+- [Documentation](https://apialerts.com/docs)
+- [Sign up](https://apialerts.com)
+- [GitHub Issues](https://github.com/apialerts/notify-action/issues)
