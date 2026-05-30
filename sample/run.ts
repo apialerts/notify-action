@@ -1,12 +1,9 @@
+// Integration test entry point called by the apialerts/integration-tests
+// harness. Sends a minimal and a full event to a real workspace.
 import { ApiAlerts } from 'apialerts'
 import { INTEGRATION, VERSION } from '../src/run'
 
 const args = process.argv.slice(2)
-const isBuild = args.includes('--build')
-const isRelease = args.includes('--release')
-const isPublish = args.includes('--publish')
-const isIntegrationTests = args.includes('--integration-tests')
-
 const channelIndex = args.indexOf('--channel')
 const channel = channelIndex !== -1 ? args[channelIndex + 1] : 'testing'
 
@@ -33,56 +30,20 @@ function handleResult(result: Awaited<ReturnType<typeof ApiAlerts.sendAsync>>): 
 }
 
 async function main(): Promise<void> {
-    if (isBuild) {
-        handleResult(await ApiAlerts.sendAsync({
-            message: 'Notify Action - PR build passed',
-            channel: 'developer',
-            event: 'ci.build',
-            title: 'Build Passed',
-            tags: ['CI/CD', 'Notify Action'],
-            link,
-        }))
+    handleResult(await ApiAlerts.sendAsync({
+        message: 'Notify Action - minimal',
+        channel,
+    }))
 
-    } else if (isRelease) {
-        handleResult(await ApiAlerts.sendAsync({
-            message: 'Notify Action - release build passed',
-            channel: 'developer',
-            event: 'ci.release',
-            title: 'Release Build Passed',
-            tags: ['CI/CD', 'Notify Action'],
-            link,
-        }))
-
-    } else if (isPublish) {
-        handleResult(await ApiAlerts.sendAsync({
-            message: 'Notify Action - published',
-            channel: 'releases',
-            event: 'ci.publish',
-            title: 'Published',
-            tags: ['CI/CD', 'Notify Action'],
-            link,
-        }))
-
-    } else if (isIntegrationTests) {
-        handleResult(await ApiAlerts.sendAsync({
-            message: 'Notify Action - minimal',
-            channel,
-        }))
-
-        handleResult(await ApiAlerts.sendAsync({
-            message: 'Notify Action - full',
-            channel,
-            event: 'sdk.test',
-            title: 'Integration Test',
-            tags: ['CI/CD', 'Notify Action'],
-            link,
-            data: { version: '2.1.0' },
-        }))
-
-    } else {
-        console.error('Error: pass --build, --release, --publish, or --integration-tests')
-        process.exit(1)
-    }
+    handleResult(await ApiAlerts.sendAsync({
+        message: 'Notify Action - full',
+        channel,
+        event: 'sdk.integration.test',
+        title: 'Integration Test',
+        tags: ['CI/CD', 'Notify Action'],
+        link,
+        data: { version: VERSION },
+    }))
 }
 
 main()

@@ -2,10 +2,15 @@ import * as core from '@actions/core'
 import { ApiAlerts } from 'apialerts'
 
 export const INTEGRATION = 'notify-action'
-export const VERSION = '2.1.0'
+export const VERSION = '2.2.0'
 
 export async function run(): Promise<void> {
-    const apiKey = core.getInput('api_key', { required: true })
+    const apiKey = core.getInput('api_key') || process.env.APIALERTS_API_KEY || ''
+    if (!apiKey.trim()) {
+        core.setFailed('api_key is required (set the input or APIALERTS_API_KEY env var)')
+        return
+    }
+
     const message = core.getInput('message', { required: true })
 
     const channel = core.getInput('channel') || undefined
@@ -38,8 +43,8 @@ export async function run(): Promise<void> {
         return
     }
 
-    core.info(`✓ (apialerts.com) Alert sent to ${result.workspace} (${result.channel})`)
+    core.info(`Alert sent to ${result.workspace} (${result.channel})`)
     for (const warning of result.warnings) {
-        core.warning(`(apialerts.com) ${warning}`)
+        core.warning(warning)
     }
 }

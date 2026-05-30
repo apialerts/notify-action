@@ -119,6 +119,58 @@ describe('success', () => {
     })
 })
 
+// ── API key resolution ───────────────────────────────────────────────────────
+
+describe('api key resolution', () => {
+    it('uses api_key input when provided', async () => {
+        mockInputs({ api_key: 'input-key', message: 'test' })
+        mockSendAsync.mockResolvedValue(successResult())
+
+        await run()
+
+        expect(mockSetFailed).not.toHaveBeenCalled()
+        // Configure called with the input key
+        const { ApiAlerts } = await import('apialerts') as any
+        expect(ApiAlerts.configure).toHaveBeenCalledWith('input-key')
+    })
+
+    it('falls back to APIALERTS_API_KEY env var when input is empty', async () => {
+        process.env.APIALERTS_API_KEY = 'env-key'
+        mockInputs({ message: 'test' })
+        mockSendAsync.mockResolvedValue(successResult())
+
+        await run()
+
+        expect(mockSetFailed).not.toHaveBeenCalled()
+        const { ApiAlerts } = await import('apialerts') as any
+        expect(ApiAlerts.configure).toHaveBeenCalledWith('env-key')
+
+        delete process.env.APIALERTS_API_KEY
+    })
+
+    it('input wins over env var when both set', async () => {
+        process.env.APIALERTS_API_KEY = 'env-key'
+        mockInputs({ api_key: 'input-key', message: 'test' })
+        mockSendAsync.mockResolvedValue(successResult())
+
+        await run()
+
+        const { ApiAlerts } = await import('apialerts') as any
+        expect(ApiAlerts.configure).toHaveBeenCalledWith('input-key')
+
+        delete process.env.APIALERTS_API_KEY
+    })
+
+    it('fails with helpful message when neither is set', async () => {
+        delete process.env.APIALERTS_API_KEY
+        mockInputs({ message: 'test' })
+
+        await run()
+
+        expect(mockSetFailed).toHaveBeenCalledWith(expect.stringContaining('APIALERTS_API_KEY'))
+    })
+})
+
 // ── Failure ───────────────────────────────────────────────────────────────────
 
 describe('failure', () => {

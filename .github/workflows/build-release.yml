@@ -26,6 +26,13 @@ jobs:
           git add dist/
           git diff --staged --quiet || git commit -m "chore: rebuild dist"
           git push
-      - run: npx tsx sample/run.ts --release
-        env:
-          APIALERTS_API_KEY: ${{ secrets.APIALERTS_API_KEY }}
+
+      # Dogfood the action itself with the just-built dist/.
+      - uses: ./
+        with:
+          api_key: ${{ secrets.APIALERTS_API_KEY }}
+          event: ci.release.success
+          channel: developer
+          message: 'notify-action - main build success'
+          tags: CI/CD,GitHub-Action,Release
+          link: ${{ format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}
