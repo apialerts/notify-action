@@ -1,0 +1,30 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+      # Dogfood the action itself with the PR's freshly built dist/.
+      # `uses: ./` runs the local action source, not the published version.
+      - uses: ./
+        with:
+          api_key: ${{ secrets.APIALERTS_API_KEY }}
+          event: ci.build.success
+          channel: developer
+          message: 'notify-action - PR build success'
+          tags: CI/CD,GitHub-Action,Build
+          link: ${{ format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}

@@ -5,20 +5,29 @@ branding:
   color: 'orange'
 inputs:
   api_key:
-    description: 'API Key of the workspace to notify'
-    required: true
-  channel:
-    description: 'Optional workspace channel identifier to notify'
+    description: 'API Alerts workspace API key. Optional if APIALERTS_API_KEY env var is set.'
     required: false
   message:
-    description: 'Notification message'
+    description: 'Notification message. Required.'
     required: true
+  channel:
+    description: 'Channel to send the notification to. Defaults to the workspace default channel.'
+    required: false
+  event:
+    description: 'Event name for routing. Use dotted notation (e.g. ci.deploy.success) so routing rules can match glob patterns like ci.* or *.failed.'
+    required: false
+  title:
+    description: 'Short headline some destinations render separately from the message body.'
+    required: false
   tags:
-    description: 'Optional comma separated list of tags for the event'
+    description: 'Comma-separated categorisation tags.'
     required: false
   link:
-    description: 'Optional link for the event'
+    description: 'URL associated with the event. Available as a deeplink for push notifications and as a call-to-action for routed destinations.'
+    required: false
+  data:
+    description: 'JSON object of key-value metadata. Available to non-push destinations for templating.'
     required: false
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
