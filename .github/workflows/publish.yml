@@ -58,7 +58,7 @@ jobs:
       - uses: apialerts/notify-action@v2
         with:
           api_key: ${{ secrets.APIALERTS_API_KEY }}
-          event: ci.publish.success
+          event: ci.integration.publish.notify-action
           channel: releases
           message: 'notify-action ${{ github.ref_name }} published'
           tags: CI/CD,GitHub-Action,Publish

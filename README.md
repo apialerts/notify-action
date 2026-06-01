@@ -18,29 +18,23 @@ Add your API Alerts workspace API key as a GitHub Actions secret:
 
 Your API key lives in the API Alerts app under **Workspace Settings**.
 
-Expose the secret at the workflow or job level once, and every notify step in that job picks it up automatically:
+Two ways to give the key to the action:
 
-```yaml
-jobs:
-  build:
-    env:
-      APIALERTS_API_KEY: ${{ secrets.APIALERTS_API_KEY }}
-    steps:
-      - uses: apialerts/notify-action@v2
-        with:
-          event: ci.build.success
-          message: 'Build complete'
-```
+- **One notification?** Inline it as `api_key:` on the step. Zero setup.
+- **Multiple notifications in the same workflow?** Set `APIALERTS_API_KEY` once at the workflow or job level. Every step inherits it.
 
-You can still pass `api_key:` as an input on individual steps if you prefer, but the env var pattern is cleaner when you fire multiple notifications per job.
+GitHub Actions does not auto-inject repo secrets into actions for security reasons, so you always declare the binding somewhere.
 
 ## Usage
 
 ### Single notification
 
+Inline the key. One step, no extra setup.
+
 ```yaml
 - uses: apialerts/notify-action@v2
   with:
+    api_key: ${{ secrets.APIALERTS_API_KEY }}
     event: ci.deploy.success
     message: '🚀 Production deployed'
 ```
@@ -49,25 +43,36 @@ You can still pass `api_key:` as an input on individual steps if you prefer, but
 
 Two steps with `if: success()` and `if: failure()` so each branch has its own clean configuration. GitHub Actions skips steps after a failure by default, so the `if:` guards are what make each branch fire.
 
-```yaml
-- if: success()
-  uses: apialerts/notify-action@v2
-  with:
-    event: ci.deploy.success
-    channel: releases
-    message: '🚀 Production deployed'
-    tags: deploy,production
-    link: 'https://app.example.com'
+Set `APIALERTS_API_KEY` once at the job level so neither step has to repeat the credential.
 
-- if: failure()
-  uses: apialerts/notify-action@v2
-  with:
-    event: ci.deploy.failed
-    channel: releases
-    message: '❌ Production deploy failed'
-    tags: deploy,production
-    link: ${{ format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}
+```yaml
+jobs:
+  deploy:
+    env:
+      APIALERTS_API_KEY: ${{ secrets.APIALERTS_API_KEY }}
+    steps:
+      - run: ./deploy.sh
+
+      - if: success()
+        uses: apialerts/notify-action@v2
+        with:
+          event: ci.deploy.success
+          channel: releases
+          message: '🚀 Production deployed'
+          tags: deploy,production
+          link: 'https://app.example.com'
+
+      - if: failure()
+        uses: apialerts/notify-action@v2
+        with:
+          event: ci.deploy.failure
+          channel: releases
+          message: '❌ Production deploy failed'
+          tags: deploy,production
+          link: ${{ format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}
 ```
+
+Promote `env:` to the workflow root (above `jobs:`) instead of a single job if multiple jobs in the same file also fire notifications.
 
 ### Single step with conditional values
 
@@ -77,7 +82,8 @@ Prefer one step over two? Use `if: success() || failure()` with GitHub Actions t
 - if: success() || failure()
   uses: apialerts/notify-action@v2
   with:
-    event: ${{ job.status == 'success' && 'ci.deploy.success' || 'ci.deploy.failed' }}
+    api_key: ${{ secrets.APIALERTS_API_KEY }}
+    event: ${{ job.status == 'success' && 'ci.deploy.success' || 'ci.deploy.failure' }}
     channel: releases
     message: ${{ job.status == 'success' && '🚀 Production deployed' || '❌ Production deploy failed' }}
     tags: deploy,production
@@ -91,6 +97,7 @@ Every input the action accepts. `data` is a JSON string of arbitrary key-value m
 ```yaml
 - uses: apialerts/notify-action@v2
   with:
+    api_key: ${{ secrets.APIALERTS_API_KEY }}
     event: user.signup
     message: 'New user signed up'
     channel: developers

@@ -23,7 +23,7 @@ jobs:
       - uses: ./
         with:
           api_key: ${{ secrets.APIALERTS_API_KEY }}
-          event: ci.build.success
+          event: ci.integration.build.notify-action
           channel: developer
           message: 'notify-action - PR build success'
           tags: CI/CD,GitHub-Action,Build

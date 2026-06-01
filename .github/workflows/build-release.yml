@@ -31,7 +31,7 @@ jobs:
       - uses: ./
         with:
           api_key: ${{ secrets.APIALERTS_API_KEY }}
-          event: ci.release.success
+          event: ci.integration.release.notify-action
           channel: developer
           message: 'notify-action - main build success'
           tags: CI/CD,GitHub-Action,Release
