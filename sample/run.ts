@@ -42,7 +42,7 @@ async function main(): Promise<void> {
         title: 'Integration Test',
         tags: ['CI/CD', 'Notify Action'],
         link,
-        data: { version: VERSION },
+        data: { integration: 'notify-action' },
     }))
 }
 

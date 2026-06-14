@@ -176,7 +176,7 @@ describe('api key resolution', () => {
 describe('failure', () => {
     it('calls setFailed when result is not successful', async () => {
         mockInputs({ api_key: 'test-key', message: 'test' })
-        mockSendAsync.mockResolvedValue({ success: false, error: 'unauthorized — check your API key', warnings: [] })
+        mockSendAsync.mockResolvedValue({ success: false, error: 'unauthorized, check your api key', warnings: [] })
 
         await run()
 
